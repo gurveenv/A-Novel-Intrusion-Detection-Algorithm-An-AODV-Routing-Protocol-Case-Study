@@ -1,0 +1,34 @@
+Input Factors:
+M: Mobile node, S: Source node, R: Receiver node, Ψ :Radio range = 550m, bh(n,ab): behavior table containing normal and abnormal behaviors, I: Set of intermediatenodes, A: Attack types (probing, vampire, DoS, U2R),jm: Junk message, e: Energy of nodes, Rp: AODV routingprotocol, rpkt: Routing Packet Output Responses: Throughput, Normal Routing Load(NRL), End-to-End Delay, Accuracy, Confusion Matrix i.e. True positives (tp), True negatives (tn), False positives(fp), False negatives (fn).
+Procedure:
+S ← broadcast (AODV, S, R)
+if I _= R and I in Ψ then
+I ← receive rpkt
+I ← forward rpkt to next hop
+else if I == R then
+R ← receives rpkt
+Select shortest path
+R ← create reverse route for ack
+S ← receives ack
+Send data (S, R, data)
+else
+Node out of range
+Node unreachable
+end if
+Attack detection module:
+Data passes into detection engine, Compare data and bh(n,ab).
+if data == bh(n) then
+data is normal TCP, UDP or AODV
+else if data ==bh(ab) then
+Data shows abnormal activity: A
+if bh(ab) == data capturing then
+A ← probe
+else if bh(ab) == jm and data _= TCP, UDP, AODV
+then
+A ← DoS
+else if bh(ab) == (e=0) and path disabled then
+else if bh(ab) == ip modified or I node uses root ip
+then
+A ← U2R
+end if
+end if
